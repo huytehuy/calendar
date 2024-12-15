@@ -14,6 +14,9 @@ import {
 import { useRouter } from 'next/navigation'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
+// Thêm export config để tắt static generation
+export const dynamic = 'force-dynamic'
+
 interface CalendarEvent {
   id: string
   summary: string
@@ -43,7 +46,7 @@ export default function CalendarPage() {
           setEvents(data.items || [])
         }
       } catch (error) {
-        console.error('Lỗi khi lấy dữ liệu:', error)
+        console.error('L��i khi lấy dữ liệu:', error)
       } finally {
         setLoading(false)
       }
@@ -99,8 +102,15 @@ export default function CalendarPage() {
   }
 
   if (!session) {
-    router.push('/')
-    return null
+    useEffect(() => {
+      router.replace('/')
+    }, [router])
+    
+    return (
+      <Box className="min-h-screen flex items-center justify-center">
+        <CircularProgress />
+      </Box>
+    )
   }
 
   return (

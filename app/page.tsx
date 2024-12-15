@@ -36,8 +36,15 @@ import Image from 'next/image'
 interface CalendarEvent {
   id: string
   summary: string
-  start: { dateTime: string }
-  end: { dateTime: string }
+  description?: string
+  start: { 
+    dateTime?: string
+    date?: string 
+  }
+  end: { 
+    dateTime?: string
+    date?: string
+  }
 }
 
 export default function Home() {

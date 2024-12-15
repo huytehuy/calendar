@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { 
   TextField, 
@@ -29,6 +29,8 @@ const steps = [
   'Chọn thời gian',
   'Xác nhận và tạo'
 ]
+
+export const dynamic = 'force-dynamic'
 
 export default function NewEvent() {
   const { data: session } = useSession()
@@ -71,7 +73,7 @@ export default function NewEvent() {
         setEndDate(new Date())
       } else {
         const data = await response.json()
-        setError(data.error || 'Có lỗi x���y ra')
+        setError(data.error || 'Có lỗi xảy ra')
       }
     } catch (error) {
       console.error('Lỗi khi tạo sự kiện:', error)
@@ -82,8 +84,15 @@ export default function NewEvent() {
   }
 
   if (!session) {
-    router.push('/')
-    return null
+    useEffect(() => {
+      router.replace('/')
+    }, [router])
+    
+    return (
+      <Box className="min-h-screen flex items-center justify-center">
+        <CircularProgress />
+      </Box>
+    )
   }
 
   const getStepContent = () => {
