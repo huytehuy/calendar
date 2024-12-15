@@ -1,0 +1,28 @@
+1. Công nghệ và thư viện chính
+Frontend:
+Next.js: Hỗ trợ SSR (Server-Side Rendering) và API routes.
+Tailwind CSS / Material-UI: Tùy chọn UI framework để thiết kế giao diện.
+Backend:
+MongoDB: Quản lý dữ liệu đặt lịch.
+Mongoose: Thư viện ORM để kết nối MongoDB.
+Google API Client: Để kết nối và thao tác với Google Calendar.
+Xác thực:
+NextAuth.js: Hỗ trợ Google OAuth2 để người dùng đăng nhập và cấp quyền truy cập.
+2. Các tính năng chính
+Đăng nhập và xác thực:
+
+Sử dụng Google OAuth2 để đăng nhập.
+Yêu cầu quyền truy cập vào Google Calendar thông qua API của Google.
+Quản lý lịch đặt:
+
+Hiển thị các lịch đặt từ MongoDB hoặc đồng bộ từ Google Calendar.
+Tạo, sửa, xóa lịch hẹn.
+Đồng bộ dữ liệu lên Google Calendar khi có thay đổi.
+Giao diện quản lý:
+
+Trang hiển thị danh sách lịch hẹn (theo ngày, tuần, tháng).
+Chức năng thêm mới lịch hẹn và chọn khung giờ.
+Tích hợp Google Calendar:
+
+Lấy danh sách lịch từ Google Calendar của người dùng.
+Đồng bộ các lịch đặt từ hệ thống lên Google Calendar.
