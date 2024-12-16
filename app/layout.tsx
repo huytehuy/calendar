@@ -2,16 +2,20 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { metadata } from "./metadata";
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/auth.config'
 
 const inter = Inter({ subsets: ["latin"] });
 
 export { metadata }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang="vi">
       <head>
@@ -21,7 +25,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Providers>
+        <Providers session={session}>
           {children}
         </Providers>
       </body>

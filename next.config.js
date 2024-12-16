@@ -2,9 +2,28 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    workerThreads: false,
-    cpus: 1
+  async rewrites() {
+    return [
+      {
+        source: '/dashboard',
+        destination: '/'
+      }
+    ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: true,
+        has: [
+          {
+            type: 'cookie',
+            key: 'next-auth.session-token'
+          }
+        ]
+      }
+    ]
   }
 }
 

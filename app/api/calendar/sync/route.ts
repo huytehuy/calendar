@@ -1,39 +1,36 @@
 import { google } from 'googleapis'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
-import { authOptions } from '../../auth/auth.config'
+import { authOptions } from '@/app/api/auth/auth.config'
 
 export async function GET() {
   const session = await getServerSession(authOptions)
 
-  if (!session?.accessToken) {
+  if (!session?.user?.accessToken) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     const oauth2Client = new google.auth.OAuth2()
-    oauth2Client.setCredentials({ access_token: session.accessToken })
+    oauth2Client.setCredentials({ 
+      access_token: session.user.accessToken 
+    })
 
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client })
-
-    // Lấy các sự kiện trong 30 ngày tới
-    const timeMin = new Date()
-    const timeMax = new Date()
-    timeMax.setDate(timeMax.getDate() + 30)
-
+    
     const response = await calendar.events.list({
       calendarId: 'primary',
-      timeMin: timeMin.toISOString(),
-      timeMax: timeMax.toISOString(),
+      timeMin: new Date().toISOString(),
+      maxResults: 10,
       singleEvents: true,
       orderBy: 'startTime',
     })
 
     return NextResponse.json(response.data)
   } catch (error) {
-    console.error('Lỗi khi đồng bộ lịch:', error)
+    console.error('Error:', error)
     return NextResponse.json(
-      { error: 'Lỗi khi đồng bộ lịch' },
+      { error: 'Không thể lấy danh sách sự kiện' },
       { status: 500 }
     )
   }
